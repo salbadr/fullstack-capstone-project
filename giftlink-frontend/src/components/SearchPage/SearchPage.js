@@ -9,15 +9,15 @@ function SearchPage() {
     //Task 1: Define state variables for the search query, age range, and search results.
     const categories = ['Living', 'Bedroom', 'Bathroom', 'Kitchen', 'Office'];
     const conditions = ['New', 'Like New', 'Older'];
-    const [name, setName] = useState('');
-    const [age, setAge] = useState();
+    const [query, setQuery] = useState('');
+    const [ageRange, setAgeRange] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
         // fetch all products
         const fetchProducts = async () => {
             try {
-                let url = `${urlConfig.backendUrl}/api/gift`
+                let url = `${urlConfig.backendUrl}/gift`
                 console.log(url)
                 const response = await fetch(url);
                 if (!response.ok) {
@@ -26,6 +26,8 @@ function SearchPage() {
                 }
                 const data = await response.json();
                 setSearchResults(data);
+                             console.log(data);
+
             } catch (error) {
                 console.log('Fetch error: ' + error.message);
             }
@@ -34,24 +36,24 @@ function SearchPage() {
         fetchProducts();
     }, []);
 
+    useEffect(()=>{
+        if(searchResults.length>0){
+            const ages = searchResults.map((searchResult)=>Math.round(searchResult.age_years)).sort();
+            setAgeRange(ages);
+        }
+
+    },[searchResults])
+
+
+
 
     // Task 2. Fetch search results from the API based on user inputs.
 
     async function fetchSearchResult() {
-        try {
-            let url = `${urlConfig.backendUrl}/api/gift`
-            console.log(url)
-            const response = await fetch(url);
-            if (!response.ok) {
-                //something went wrong
-                throw new Error(`HTTP error; ${response.status}`)
-            }
-            const data = await response.json();
-            setSearchResults(data);
-        } catch (error) {
-            console.log('Fetch error: ' + error.message);
-        }
+        
     };
+
+    console.log('One');
 
 
 
@@ -98,8 +100,8 @@ function SearchPage() {
 
                             {/* Task 4: Implement an age range slider and display the selected value. */}
                             <div className='form-group mt-2 '>
-                                <p>Less than 6 years</p>
-                                <input name="age" id="age" type="range" min="1" max="100" className='age-range-slider' />
+                                <p>Less than </p>
+                                <input name="age_range" id="age_range" type="range" min={ageRange[0]} max={ageRange[ageRange.length-1]} className='age-range-slider' />
 
                             </div>
                         </div>
