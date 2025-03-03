@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 export default function Navbar() {
     return (
@@ -8,10 +9,11 @@ export default function Navbar() {
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
                     {/* Task 1: Add links to Home and Gifts below*/}
-                    <li className='nav-item'><a className='nav-link' href="/home.html">Home</a></li>
-                    <li className='nav-item'><a className='nav-link' href="/app">Gifts</a></li>
-                    <li className='nav-item'><a className='nav-link' href="/app/login">Login</a></li>
-                    <li className='nav-item'><a className='nav-link' href="/app/register">Register</a></li>
+                    <li className='nav-item'><NavLink className='nav-link' to="/home.html">Home</NavLink></li>
+                    <li className='nav-item'><NavLink className='nav-link' to="/app">Gifts</NavLink></li>
+                    <li className='nav-item'><NavLink className='nav-link' to="/app/search">Search</NavLink></li>
+                    <li className='nav-item'><NavLink className='nav-link' to="/app/login">Login</NavLink></li>
+                    <li className='nav-item'><NavLink className='nav-link' to="/app/register">Register</NavLink></li>
 
                 </ul>
             </div>
