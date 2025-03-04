@@ -15,8 +15,7 @@ function SearchPage() {
     const [condition, setCondition] = useState('');
 
     const [name, setName] = useState('');
-    const [ageRange, setAgeRange] = useState([]);
-    const [selectedAge, setSelectedAge] = useState(0);
+    const [ageRange, setAgeRange] = useState(6);
     const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
@@ -24,7 +23,6 @@ function SearchPage() {
         const fetchProducts = async () => {
             try {
                 let url = `${urlConfig.backendUrl}/gift`
-                console.log(url)
                 const response = await fetch(url);
                 if (!response.ok) {
                     //something went wrong
@@ -32,7 +30,6 @@ function SearchPage() {
                 }
                 const data = await response.json();
                 setSearchResults(data);
-                console.log(data);
 
             } catch (error) {
                 console.log('Fetch error: ' + error.message);
@@ -42,19 +39,7 @@ function SearchPage() {
         fetchProducts();
     }, []);
 
-    useEffect(() => {
-        if (searchResults.length > 0) {
-            const age_range = searchResults.map((searchResult) => Math.round(searchResult.age_years)).sort();
-            const sum_of_ages = searchResults.reduce((accumulator, current) => Math.ceil(accumulator + current.age_years), 0);
-            console.log(sum_of_ages);
-            const middle_age_range_index = Math.ceil(sum_of_ages / age_range.length);
-                        console.log(middle_age_range_index);
 
-            setAgeRange(age_range);
-            setSelectedAge(middle_age_range_index)
-        }
-
-    }, [searchResults])
 
     // Task 2. Fetch search results from the API based on user inputs.
 
@@ -71,13 +56,10 @@ function SearchPage() {
             if (name.length > 0) {
                 query.push(`name=${name}`)
             }
+            query.push(`age_years=${ageRange}`)
 
-            query.push(`age_years=${selectedAge}`)
-
-
-            query = query.join('&&');
+            query = query.join('&');
             let url = `${urlConfig.backendUrl}/search?${query}`
-            console.log(url)
             const response = await fetch(url);
             if (!response.ok) {
                 //something went wrong
@@ -85,7 +67,6 @@ function SearchPage() {
             }
             const data = await response.json();
             setSearchResults(data);
-            console.log(data);
 
         } catch (error) {
             console.log('Fetch error: ' + error.message);
@@ -139,8 +120,8 @@ function SearchPage() {
 
                             {/* Task 4: Implement an age range slider and display the selected value. */}
                             <div className='form-group mt-2 '>
-                                <p>Less than {selectedAge}</p>
-                                <input name="age_range" id="age_range" type="range" min={ageRange[0]} max={ageRange[ageRange.length - 1]} value={selectedAge} className='age-range-slider' onChange={(e) => setSelectedAge(e.target.value)} />
+                                <p>Less than {ageRange}</p>
+                                <input name="age_range" id="age_range" type="range" min='1' max='10' value={ageRange} className='age-range-slider' onChange={(e) => setAgeRange(e.target.value)} />
 
                             </div>
                         </div>
@@ -155,36 +136,43 @@ function SearchPage() {
                     <button name='search' className='mt-4 btn btn-primary' onClick={() => fetchSearchResult()}>Search</button>
 
                     {/*Task 5: Display search results and handle empty results with a message. */}
-                    {
-                        (searchResults.length === 0) ?
-                            <div>No searchResults</div>
-                            :
-                            searchResults.map((gift) => (
-                                <div key={gift.id} className=" mb-4">
-                                    <div className="card product-card">
-                                        <div className="image-placeholder">
-                                            <img src={gift.image}></img>
-                                        </div>
-                                        <div className="card-body">
+                    <div className="search-results mt-4">
 
-                                            <p className='card-title'>
-                                                <strong>{gift.name}</strong>
-                                            </p>
+                        {
 
-                                            <p className='card-text'>
-                                                {gift.description}
-                                            </p>
+                            (searchResults.length === 0) ?
+                                <div className="alert alert-info" role="alert">
+                                    No products found. Please revise your filters.
+                                </div>
+                                :
+                                searchResults.map((gift) => (
+                                    <div key={gift.id} className=" mb-4">
+                                        <div className="card product-card">
+                                            <div className="image-placeholder">
+                                                <img src={gift.image}></img>
+                                            </div>
+                                            <div className="card-body">
 
-                                            <button onClick={() => goToDetailsPage(gift.id)} className="btn btn-primary">
-                                                View Details
-                                            </button>
+                                                <p className='card-title'>
+                                                    <strong>{gift.name}</strong>
+                                                </p>
+
+                                                <p className='card-text'>
+                                                    {gift.description}
+                                                </p>
+
+                                                <button onClick={() => goToDetailsPage(gift.id)} className="btn btn-primary">
+                                                    View Details
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))
+                                ))
 
 
-                    }
+                        }
+                    </div>
+
                 </div>
             </div>
         </div>
