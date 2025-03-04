@@ -10,7 +10,7 @@
     /* Insert specific CSS properties here */
     width: 20%;
     background-color: #007bff;
-     color: #ffffff
+    color: #ffffff
 }
 
 /* Task 3: Customize dropdown filters */
@@ -23,15 +23,31 @@
 /* Task 4: Style the age range slider */
 .age-range-slider {
     /* Insert specific CSS properties here */
-    width:100%;
+    width: 100%;
 }
 
 /* Task 5: Enhance search results cards appearance */
 .search-results-card {
     /* Insert specific CSS properties here */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
 
 }
 
 /* Additional placeholders for tasks 6 to 10 */
+.alert-info {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem 1.25rem;
+    margin-top: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.card {
+    transition: 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+}

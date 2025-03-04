@@ -146,8 +146,7 @@ function SearchPage() {
                                 </div>
                                 :
                                 searchResults.map((gift) => (
-                                    <div key={gift.id} className=" mb-4">
-                                        <div className="card product-card">
+                                    <div key={gift.id} className="card mb-4">
                                             <div className="image-placeholder">
                                                 <img src={gift.image}></img>
                                             </div>
@@ -162,9 +161,8 @@ function SearchPage() {
                                                 </p>
 
                                                 <button onClick={() => goToDetailsPage(gift.id)} className="btn btn-primary">
-                                                    View Details
+                                                    View More
                                                 </button>
-                                            </div>
                                         </div>
                                     </div>
                                 ))
