@@ -1,5 +1,4 @@
 /*jshint esversion: 8 */
-require('dotenv').config();
 require("./util/import-mongo/index");
 
 const express = require('express');
@@ -19,6 +18,8 @@ const giftRoutes =  require('./routes/giftRoutes');
 // Search API Task 1: import the searchRoutes and store in a constant called searchRoutes
 const searchRoutes =  require('./routes/searchRoutes');
 
+const authRoutes = require('./routes/authRoutes');
+
 
 const pinoHttp = require('pino-http');
 const logger = require('./logger');
@@ -31,6 +32,8 @@ app.use('/api/gift/', giftRoutes);
 
 // Search API Task 2: add the searchRoutes to the server by using the app.use() method.
 app.use('/api/search/', searchRoutes);
+
+app.use('/api/auth/', authRoutes);
 
 
 // Global Error Handler
