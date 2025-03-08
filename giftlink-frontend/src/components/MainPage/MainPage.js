@@ -9,7 +9,7 @@ function MainPage() {
     useEffect(() => {
         // Task 1: Write async fetch operation
         // Write your code below this line
-        fetch(`${urlConfig.backendUrl}gift`)
+        fetch(`${urlConfig.backendUrl}/gift`)
             .then(resp => resp.json())
             .then(data => setGifts(data))
             .catch((err) => {

@@ -125,7 +125,7 @@ router.put('/update', [
         const { email } = req.headers;
 
         if (validation.errors.length > 0) {
-            throw new Error(`Invalid request ${validation.errors.map(err => err.msg).join(', ')}`);
+            throw new Error(`Invalid request. The ${validation.errors.map(err => `"${err.path}" field is ${err.value}`).join(', ')}`);
         }
 
         if (!email) {

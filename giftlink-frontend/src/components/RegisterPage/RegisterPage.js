@@ -24,7 +24,7 @@ export default function RegisterPage() {
             email: emailInput.value,
             password: passwordInput.value
         }
-        fetch(`${urlConfig.backendUrl}auth/register`, { method: 'POST', body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' } })
+        fetch(`${urlConfig.backendUrl}/auth/register`, { method: 'POST', body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' } })
             .then(res => {
                 if (!res.ok) {
                     throw new Error('Something went wrong');

@@ -28,7 +28,7 @@ export default function LoginPage() {
             password: passwordInput.value
         }
       
-        fetch(`${urlConfig.backendUrl}auth/login`, {
+        fetch(`${urlConfig.backendUrl}/auth/login`, {
             method: 'POST', body: JSON.stringify(body), headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token ? `Bearer ${token}` : ''

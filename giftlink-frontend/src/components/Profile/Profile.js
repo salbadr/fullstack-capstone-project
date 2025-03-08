@@ -64,16 +64,26 @@ const Profile = () => {
             }
 
             const payload = { ...updatedDetails };
-            const response = await fetch(`${urlConfig.backendUrl}/api/auth/update`, {
+            const response = await fetch(`${urlConfig.backendUrl}/auth/update`, {
                 //Step 1: Task 1
+                method: 'PUT',
                 //Step 1: Task 2
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Athorization': `Bearer: ${authtoken}`,
+                    'email': email
+                },
                 //Step 1: Task 3
+                body:JSON.stringify(payload)
             });
 
             if (response.ok) {
                 // Update the user details in session storage
                 //Step 1: Task 4
+                const data =  await response.json();
+                setUserName(data.name)
                 //Step 1: Task 5
+                sessionStorage.setItem('name', data.name);
                 setUserDetails(updatedDetails);
                 setEditMode(false);
                 // Display success message to the user
