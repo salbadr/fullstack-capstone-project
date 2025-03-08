@@ -32,9 +32,6 @@ router.post('/register', [
 
 ], async (req, res, next) => {
     try {
-        const db = await connectToDatabase()
-
-        const collection = db.collection(collectionName);
         const validation = validationResult(req);
 
         if (validation.errors.length > 0) {
@@ -42,6 +39,10 @@ router.post('/register', [
         }
 
         const { firstname, lastname, email, password } = req.body;
+        const db = await connectToDatabase()
+
+        const collection = db.collection(collectionName);
+
 
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const newUser = await collection.insertOne({
@@ -75,9 +76,6 @@ router.post('/login', [
 
 ], async (req, res, next) => {
     try {
-        const db = await connectToDatabase()
-
-        const collection = db.collection(collectionName);
         const validation = validationResult(req);
 
         if (validation.errors.length > 0) {
@@ -85,6 +83,10 @@ router.post('/login', [
         }
 
         const { email, password } = req.body;
+
+        const db = await connectToDatabase()
+
+        const collection = db.collection(collectionName);
 
         const user = await collection.findOne({ email });
         if (!user) {
@@ -94,7 +96,7 @@ router.post('/login', [
         if (await bcrypt.compare(password, user.password)) {
             const payload = {
                 user: {
-                    id:  user._id.toString(),
+                    id: user._id.toString(),
                 }
             };
             const token = jwt.sign(payload, secret);
@@ -112,4 +114,56 @@ router.post('/login', [
         next(e);
     }
 });
+
+router.put('/update', [
+    body('name').notEmpty()
+
+], async (req, res, next) => {
+    try {
+
+        const validation = validationResult(req);
+        const { email } = req.headers;
+
+        if (validation.errors.length > 0) {
+            throw new Error(`Invalid request ${validation.errors.map(err => err.msg).join(', ')}`);
+        }
+
+        if (!email) {
+            throw new Error('Email not found in the request headers')
+        }
+
+        const db = await connectToDatabase()
+
+        const collection = db.collection(collectionName);
+
+        const updatedUser = await collection.findOneAndUpdate({ email },
+            {
+                $set: {
+                    firstname: email,
+                    updatedAt: new Date()
+                }
+            },
+            { returnNewDocument: true }
+        )
+
+        if(!updatedUser){
+            throw new Error('Failed to update user');
+        }
+
+        const payload = {
+            user: {
+                id: updatedUser._id.toString(),
+            }
+        };
+        const token = jwt.sign(payload, secret);
+
+        res.json({ token });
+        next();
+
+    } catch (e) {
+        e.status = 400;
+        next(e);
+    }
+});
+
 module.exports = router
