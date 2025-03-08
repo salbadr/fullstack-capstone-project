@@ -19,7 +19,7 @@ router.post('/register', [
     body('lastname').isString(),
     body('email').custom(async (value) => {
         const db = await connectToDatabase()
-    
+
 
         const collection = db.collection(collectionName);
         const emailExists = await collection.findOne({ email: value });
@@ -38,7 +38,7 @@ router.post('/register', [
         const validation = validationResult(req);
 
         if (validation.errors.length > 0) {
-            throw new Error(`Invalid request ${JSON.stringify(validation.errors)} `);
+            throw new Error(`Invalid request ${validation.errors.map(err => err.msg).join(', ')}`);
         }
 
         const { firstname, lastname, email, password } = req.body;
@@ -64,8 +64,52 @@ router.post('/register', [
 
         next();
     } catch (e) {
+        e.status = 400;
         next(e);
     }
 });
 
+router.post('/login', [
+    body('email').notEmpty(),
+    body('password').notEmpty()
+
+], async (req, res, next) => {
+    try {
+        const db = await connectToDatabase()
+
+        const collection = db.collection(collectionName);
+        const validation = validationResult(req);
+
+        if (validation.errors.length > 0) {
+            throw new Error(`Invalid request ${validation.errors.map(err => err.msg).join(', ')}`);
+        }
+
+        const { email, password } = req.body;
+
+        const user = await collection.findOne({ email });
+        if (!user) {
+            throw new Error('User does not exist');
+        }
+
+        if (await bcrypt.compare(password, user.password)) {
+            const payload = {
+                user: {
+                    id:  user._id.toString(),
+                }
+            };
+            const token = jwt.sign(payload, secret);
+
+            res.json({ userEmail: user.email, userName: user.firstname, token });
+            next();
+        }
+        else {
+
+            throw new Error('Invalid Login');
+        }
+
+    } catch (e) {
+        e.status = 400;
+        next(e);
+    }
+});
 module.exports = router
