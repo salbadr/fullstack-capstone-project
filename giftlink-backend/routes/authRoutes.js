@@ -99,7 +99,7 @@ router.post('/login', [
             };
             const token = jwt.sign(payload, secret);
 
-            res.json({ userEmail: user.email, userName: user.firstname, token });
+            res.json({ email: user.email, username: user.firstname, token });
             next();
         }
         else {
