@@ -146,6 +146,8 @@ router.put('/update', [
         const { email } = req.headers;
         const { name } = req.body;
 
+        console.log('NAME', name);
+
         if (validation.errors.length > 0) {
             throw new Error(`Invalid request. The ${validation.errors.map(err => `"${err.path}" field is ${err.value}`).join(', ')}`);
         }
@@ -165,7 +167,7 @@ router.put('/update', [
                     updatedAt: new Date()
                 }
             },
-            { returnNewDocument: 'after' }
+            { returnDocument: 'after' }
         );
 
         if (!updatedUser) {
