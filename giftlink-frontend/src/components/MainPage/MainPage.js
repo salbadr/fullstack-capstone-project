@@ -27,8 +27,8 @@ function MainPage() {
     // Task 3: Format timestamp
     const formatDate = (timestamp) => {
         // Write your code below this line
-        const date = new Date(timestamp*1000);
-        return `${date.toLocaleString('en-GB', {month: 'long', year: 'numeric', day:'2-digit'})}`;
+        const date = new Date(timestamp * 1000);
+        return `${date.toLocaleString('en-GB', { month: 'long', year: 'numeric', day: '2-digit' })}`;
     };
 
     const getConditionClass = (condition) => {
@@ -46,7 +46,8 @@ function MainPage() {
                             {/* // Write your code below this line */}
 
                             <div className="image-placeholder">
-                                <img src={gift.image}/>
+                                <img src={gift.image} alt={gift.name} />
+
                             </div>
                             <div className="card-body">
 

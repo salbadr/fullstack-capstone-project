@@ -88,7 +88,7 @@ function DetailsPage() {
                         {gift.image ? (
                             // Task 5: Display gift image
                             /*insert code here*/
-                            <img className='product-image-large' src={gift.image}/>
+                            <img className='product-image-large' src={gift.image} alt={gift.name}/>
                         ) : (
                             <div className="no-image-available-large">No Image Available</div>
                         )}

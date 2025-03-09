@@ -148,7 +148,7 @@ function SearchPage() {
                                 searchResults.map((gift) => (
                                     <div key={gift.id} className="card mb-4">
                                             <div className="image-placeholder">
-                                                <img src={gift.image}/>
+                                                <img src={gift.image} alt={gift.name}/>
                                             </div>
                                             <div className="card-body">
 
