@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './LoginPage.css'
 import { urlConfig } from '../../config';
 import { useAppContext } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -100,7 +100,7 @@ export default function LoginPage() {
                             <input value='Login' type='submit' className='mt-4 btn btn-primary' />
                         </form>
                         <p className="mt-4 text-center">
-                            New here? <a href="/app/register" className="text-primary">Register Here</a>
+                            New here? <Link className="text-primary" to="/app/register">Register</Link>
                         </p>
                     </div>
                 </div>
