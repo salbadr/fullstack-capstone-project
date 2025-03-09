@@ -1,3 +1,5 @@
+/*jshint esversion: 8 */
+
 require('dotenv').config();
 
 const express = require('express');
@@ -18,8 +20,7 @@ router.post('/register', [
     body('firstname').isString(),
     body('lastname').isString(),
     body('email').custom(async (value) => {
-        const db = await connectToDatabase()
-
+        const db = await connectToDatabase();
 
         const collection = db.collection(collectionName);
         const emailExists = await collection.findOne({ email: value });
@@ -39,10 +40,9 @@ router.post('/register', [
         }
 
         const { firstname, lastname, email, password } = req.body;
-        const db = await connectToDatabase()
+        const db = await connectToDatabase();
 
         const collection = db.collection(collectionName);
-
 
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const newUser = await collection.insertOne({
@@ -84,7 +84,7 @@ router.post('/login', [
 
         const { email, password } = req.body;
 
-        const db = await connectToDatabase()
+        const db = await connectToDatabase();
 
         const collection = db.collection(collectionName);
 

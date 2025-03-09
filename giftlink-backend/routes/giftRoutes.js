@@ -2,7 +2,7 @@
 
 const connectToDatabase = require('../models/db');
 const express = require('express');
-const router = express.Router()
+const router = express.Router();
 
 const collectionName = 'gifts';
 router.get('/', async (req, res) => {
