@@ -119,7 +119,7 @@ router.put('/update', [
     body('name').notEmpty(),
     (req, res, next) => {
         try {
-            const bearerHeader = req.headers.authorization
+            const bearerHeader = req.headers.authorization;
 
             if (!bearerHeader) {
                 throw new Error("Unauthorized");
@@ -129,7 +129,7 @@ router.put('/update', [
             if (!payload.user) {
                 throw new Error("Unauthorized");
             }
-            next()
+            next();
 
         }
         catch (e) {
@@ -151,10 +151,10 @@ router.put('/update', [
         }
 
         if (!email) {
-            throw new Error('Email not found in the request headers')
+            throw new Error('Email not found in the request headers');
         }
 
-        const db = await connectToDatabase()
+        const db = await connectToDatabase();
 
         const collection = db.collection(collectionName);
 
@@ -166,7 +166,7 @@ router.put('/update', [
                 }
             },
             { returnNewDocument: 'after' }
-        )
+        );
 
         if (!updatedUser) {
             throw new Error('Failed to update user');
@@ -188,4 +188,4 @@ router.put('/update', [
     }
 });
 
-module.exports = router
+module.exports = router;

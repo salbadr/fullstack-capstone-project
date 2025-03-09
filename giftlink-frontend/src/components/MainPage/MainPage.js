@@ -46,7 +46,7 @@ function MainPage() {
                             {/* // Write your code below this line */}
 
                             <div className="image-placeholder">
-                                <img src={gift.image}></img>
+                                <img src={gift.image}/>
                             </div>
                             <div className="card-body">
 

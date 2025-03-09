@@ -16,7 +16,7 @@ export default function LoginPage() {
         if (token) {
             navigate('/app/');
         }
-    }, [navigate])
+    }, [navigate, token])
 
 
     function handleLogin(e) {
