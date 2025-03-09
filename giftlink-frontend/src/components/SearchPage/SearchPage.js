@@ -106,7 +106,7 @@ function SearchPage() {
                                 </select>
                             </div>
                             <div className='form-group mt-2'>
-                                <label htmlFor="condition">Category</label>
+                                <label htmlFor="condition">Condition</label>
                                 <select name="condition" id="condition" className="form-select dropdown-filter" onChange={(e) => setCondition(e.target.value)} aria-label="select example">
                                     {
                                         conditions.map((condition, index) => (
