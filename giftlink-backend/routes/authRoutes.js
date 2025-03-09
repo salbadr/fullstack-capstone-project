@@ -101,7 +101,7 @@ router.post('/login', [
             };
             const token = jwt.sign(payload, secret);
 
-            res.json({ email: user.email, username: user.firstname, token });
+            res.json({ email: user.email, name: user.firstname, token });
             next();
         }
         else {
@@ -116,13 +116,35 @@ router.post('/login', [
 });
 
 router.put('/update', [
-    body('name').notEmpty()
+    body('name').notEmpty(),
+    (req, res, next) => {
+        try {
+            const bearerHeader = req.headers.authorization
+
+            if (!bearerHeader) {
+                throw new Error("Unauthorized");
+            }
+            const token = bearerHeader.split(' ')[1];
+            const payload = jwt.verify(token, secret);
+            if (!payload.user) {
+                throw new Error("Unauthorized");
+            }
+            next()
+
+        }
+        catch (e) {
+            e.status = 401;
+            next(e);
+
+        }
+    }
 
 ], async (req, res, next) => {
     try {
 
         const validation = validationResult(req);
         const { email } = req.headers;
+        const { name } = req.body;
 
         if (validation.errors.length > 0) {
             throw new Error(`Invalid request. The ${validation.errors.map(err => `"${err.path}" field is ${err.value}`).join(', ')}`);
@@ -139,14 +161,14 @@ router.put('/update', [
         const updatedUser = await collection.findOneAndUpdate({ email },
             {
                 $set: {
-                    firstname: email,
+                    firstname: name,
                     updatedAt: new Date()
                 }
             },
-            { returnNewDocument: true }
+            { returnNewDocument: 'after' }
         )
 
-        if(!updatedUser){
+        if (!updatedUser) {
             throw new Error('Failed to update user');
         }
 
@@ -157,7 +179,7 @@ router.put('/update', [
         };
         const token = jwt.sign(payload, secret);
 
-        res.json({ token });
+        res.json({ email: updatedUser.email, name: updatedUser.firstname, token });
         next();
 
     } catch (e) {

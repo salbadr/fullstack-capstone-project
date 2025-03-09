@@ -44,7 +44,7 @@ export default function LoginPage() {
                 if (data.token) {
                     sessionStorage.setItem('auth-token', data.token);
                     sessionStorage.setItem('email', data.email);
-                    sessionStorage.setItem('name', data.username);
+                    sessionStorage.setItem('name', data.name);
                     setIsLoggedIn(true);
 
                     navigate('/app/')
