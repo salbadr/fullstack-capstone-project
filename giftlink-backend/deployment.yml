@@ -16,11 +16,11 @@ spec:
     spec:
       containers:
       - name: giftapp-container
-        image: us.icr.io/sn-labs-mailsbadr/giftapp
+        image: salbadr/giftapp:latest
         ports:
         - containerPort: 3060
       imagePullSecrets:
-      - name: icr
+      - name: regcred
 
 ---
 apiVersion: v1
