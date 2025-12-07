@@ -48,6 +48,15 @@ mongosh
 
 You should be inside MongoDB. Exit out of it by typing `exit`
 
+## Docker Login
+To pull from docker, you will need to setup the credentials. You can do that as follows:
+```
+kubectl create secret docker-registry regcred \
+  --docker-username=<your-username> \
+  --docker-password=<your-password> \
+  --docker-email=<your-email>
+```
+
 
 
 
