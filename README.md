@@ -57,6 +57,37 @@ kubectl create secret docker-registry regcred \
   --docker-email=<your-email>
 ```
 
+## Deploy Backend
+
+Go to the backend server at `giftlink-backend` and run the command:
+```
+kubectl apply -f deployment.yml 
+```
+
+The expose the port 3060 using the command:
+```
+kubectl port-forward --address 0.0.0.0 svc/gift-app-service 3060:80
+```
+## Deploy Fontend
+
+Go to the frontend client at `giftlink-front` and make the buikd:
+```
+npm run build
+```
+
+This will build the client in `giftwebsite`. Go to the folder and build a docker image and run it
+```
+docker build -t giftlink-website:latest .
+
+docker run -d -p 9000:9000 --name giftlink-website
+```
+
+
+
+
+
+
+
 
 
 
